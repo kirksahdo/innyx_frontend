@@ -4,22 +4,26 @@ import AuthLayout from '../components/AuthLayout.vue'
 import InputComponent from '@/shared/components/input/InputComponent.vue'
 import ButtonComponent from '@/shared/components/button/ButtonComponent.vue'
 import { useMutation } from '@tanstack/vue-query'
-import { AuthService } from '@/core/services/AuthService'
 import type { LoginRequest } from '@/shared/models/auth'
 import { useToasts } from '@/shared/composables/useToasts'
 import { getApiErrorMessage } from '@/shared/utils/getApiErrorMessage'
+import { useRouter } from 'vue-router'
+import { useAuth } from '@/shared/composables/useAuth'
 
-const login = reactive({
+const credentials = reactive({
   email: '',
   password: '',
 })
 
 const { addToast } = useToasts()
+const router = useRouter()
+const { login } = useAuth()
 
 const { mutate } = useMutation({
-  mutationFn: (credentials: LoginRequest) => AuthService.login(credentials),
+  mutationFn: (credentials: LoginRequest) => login(credentials),
   onSuccess: (res) => {
     addToast({ message: 'Login bem-sucedido!', type: 'success' })
+    router.push({ name: 'home' })
     console.log(res)
   },
   onError: (err) => {
@@ -30,7 +34,7 @@ const { mutate } = useMutation({
 
 const handleSubmit = (event: Event) => {
   event.preventDefault()
-  mutate(login)
+  mutate(credentials)
 }
 </script>
 
@@ -42,7 +46,7 @@ const handleSubmit = (event: Event) => {
       <InputComponent
         id="email"
         label="Endereço de email"
-        v-model="login.email"
+        v-model="credentials.email"
         type="email"
         required
       />
@@ -50,7 +54,7 @@ const handleSubmit = (event: Event) => {
       <InputComponent
         id="password"
         label="Senha"
-        v-model="login.password"
+        v-model="credentials.password"
         type="password"
         required
       />

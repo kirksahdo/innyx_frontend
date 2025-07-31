@@ -7,6 +7,7 @@ import { useMutation } from '@tanstack/vue-query'
 import { AuthService } from '@/core/services/AuthService'
 import { useToasts } from '@/shared/composables/useToasts'
 import { getApiErrorMessage } from '@/shared/utils/getApiErrorMessage'
+import { useRouter } from 'vue-router'
 
 const register = reactive({
   name: '',
@@ -16,6 +17,7 @@ const register = reactive({
 })
 
 const { addToast } = useToasts()
+const router = useRouter()
 
 const { mutate } = useMutation({
   mutationFn: (data: typeof register) => AuthService.register(data),
@@ -24,6 +26,7 @@ const { mutate } = useMutation({
       message: 'Registrado com sucesso!',
       type: 'success',
     })
+    router.push({ name: 'home' })
     console.log(res)
   },
   onError: (err) => {
