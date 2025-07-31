@@ -6,19 +6,25 @@ import ButtonComponent from '@/shared/components/button/ButtonComponent.vue'
 import { useMutation } from '@tanstack/vue-query'
 import { AuthService } from '@/core/services/AuthService'
 import type { LoginRequest } from '@/shared/models/auth'
+import { useToasts } from '@/shared/composables/useToasts'
+import { getApiErrorMessage } from '@/shared/utils/getApiErrorMessage'
 
 const login = reactive({
   email: '',
   password: '',
 })
 
+const { addToast } = useToasts()
+
 const { mutate } = useMutation({
   mutationFn: (credentials: LoginRequest) => AuthService.login(credentials),
   onSuccess: (res) => {
+    addToast({ message: 'Login bem-sucedido!', type: 'success' })
     console.log(res)
   },
-  onError: (err: Error) => {
-    console.error('Login failed:', err.message)
+  onError: (err) => {
+    console.log(err)
+    addToast({ message: getApiErrorMessage(err), type: 'error' })
   },
 })
 
