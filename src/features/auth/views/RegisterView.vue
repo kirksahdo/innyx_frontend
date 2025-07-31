@@ -5,6 +5,8 @@ import ButtonComponent from '@/shared/components/button/ButtonComponent.vue'
 import { reactive } from 'vue'
 import { useMutation } from '@tanstack/vue-query'
 import { AuthService } from '@/core/services/AuthService'
+import { useToasts } from '@/shared/composables/useToasts'
+import { getApiErrorMessage } from '@/shared/utils/getApiErrorMessage'
 
 const register = reactive({
   name: '',
@@ -13,13 +15,22 @@ const register = reactive({
   confirmPassword: '',
 })
 
+const { addToast } = useToasts()
+
 const { mutate } = useMutation({
   mutationFn: (data: typeof register) => AuthService.register(data),
   onSuccess: (res) => {
-    console.log('Registration successful:', res)
+    addToast({
+      message: 'Registrado com sucesso!',
+      type: 'success',
+    })
+    console.log(res)
   },
-  onError: (err: Error) => {
-    console.error('Registration failed:', err.message)
+  onError: (err) => {
+    addToast({
+      message: getApiErrorMessage(err),
+      type: 'error',
+    })
   },
 })
 
