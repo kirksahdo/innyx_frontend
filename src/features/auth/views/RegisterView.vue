@@ -3,6 +3,8 @@ import AuthLayout from '../components/AuthLayout.vue'
 import InputComponent from '@/shared/components/input/InputComponent.vue'
 import ButtonComponent from '@/shared/components/button/ButtonComponent.vue'
 import { reactive } from 'vue'
+import { useMutation } from '@tanstack/vue-query'
+import { AuthService } from '@/core/services/AuthService'
 
 const register = reactive({
   name: '',
@@ -11,9 +13,19 @@ const register = reactive({
   confirmPassword: '',
 })
 
+const { mutate } = useMutation({
+  mutationFn: (data: typeof register) => AuthService.register(data),
+  onSuccess: (res) => {
+    console.log('Registration successful:', res)
+  },
+  onError: (err: Error) => {
+    console.error('Registration failed:', err.message)
+  },
+})
+
 const handleSubmit = (event: Event) => {
   event.preventDefault()
-  console.log('Registering with:', register)
+  mutate(register)
 }
 </script>
 
@@ -50,7 +62,7 @@ const handleSubmit = (event: Event) => {
 
       <ButtonComponent class="mt-6" type="submit"> Registrar </ButtonComponent>
 
-      <p class="mt-4 text-center text-sm text-text">
+      <p class="mt-2 text-center text-sm text-text">
         Já tem uma conta?
         <a href="/login" class="text-primary-500 hover:underline">Entrar</a>
       </p>

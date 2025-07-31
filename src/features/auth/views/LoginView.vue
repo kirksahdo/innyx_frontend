@@ -3,15 +3,28 @@ import { reactive } from 'vue'
 import AuthLayout from '../components/AuthLayout.vue'
 import InputComponent from '@/shared/components/input/InputComponent.vue'
 import ButtonComponent from '@/shared/components/button/ButtonComponent.vue'
+import { useMutation } from '@tanstack/vue-query'
+import { AuthService } from '@/core/services/AuthService'
+import type { LoginRequest } from '@/shared/models/auth'
 
 const login = reactive({
   email: '',
   password: '',
 })
 
+const { mutate } = useMutation({
+  mutationFn: (credentials: LoginRequest) => AuthService.login(credentials),
+  onSuccess: (res) => {
+    console.log(res)
+  },
+  onError: (err: Error) => {
+    console.error('Login failed:', err.message)
+  },
+})
+
 const handleSubmit = (event: Event) => {
   event.preventDefault()
-  console.log('Logging in with:', login)
+  mutate(login)
 }
 </script>
 
