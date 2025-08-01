@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import authRoutes from '../features/auth/router'
-import protectedRoutes from './protectedRoutes'
+import productsRouter from '../features/products/router'
 import { useAuth } from '@/shared/composables/useAuth'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [...authRoutes, ...protectedRoutes],
+  routes: [...authRoutes, ...productsRouter],
 })
 
 const { isAuthenticated } = useAuth()
