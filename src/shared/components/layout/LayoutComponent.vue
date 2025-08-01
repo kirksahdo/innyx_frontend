@@ -1,7 +1,7 @@
 <template>
-  <div class="w-full h-full flex flex-col">
+  <div class="size-full flex flex-col">
     <NavComponent />
-    <main class="flex-1 overflow-auto">
+    <main class="size-full overflow-auto">
       <router-view />
     </main>
     <footer class="bg-gray-800 text-white p-4 text-center">
