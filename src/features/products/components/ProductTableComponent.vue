@@ -57,6 +57,7 @@
           v-for="product in props.products"
           :key="product.id"
           class="hover:bg-primary-50 transition-colors duration-200"
+          @click="handleRowClick(product)"
         >
           <td class="px-6 py-4 whitespace-nowrap">
             <img
@@ -100,4 +101,10 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+
+const emit = defineEmits(['edit-product'])
+
+const handleRowClick = (product: Product) => {
+  emit('edit-product', product)
+}
 </script>
