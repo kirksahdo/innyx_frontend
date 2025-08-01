@@ -4,9 +4,15 @@ export function getApiErrorMessage(error: unknown): string {
   if (axios.isAxiosError(error)) {
     if (error.response?.data) {
       const errorData = error.response.data
+
       if (typeof errorData.error === 'string') {
         return errorData.error
       }
+
+      if (typeof errorData.errors === 'object') {
+        return String(Object.values(errorData.errors)[0]) || 'Erro desconhecido'
+      }
+
       if (typeof errorData.message === 'string') {
         return errorData.message
       }
