@@ -1,65 +1,38 @@
 <template>
   <form @submit.prevent="">
     <div class="flex flex-col gap-4">
-      <div>
-        <label for="product-name" class="block text-sm font-medium text-gray-700">Nome</label>
-        <input
-          v-model="product.name"
-          id="product-name"
-          type="text"
-          required
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
-        />
-      </div>
-      <div>
-        <label for="product-description" class="block text-sm font-medium text-gray-700"
-          >Descrição</label
-        >
-        <textarea
-          v-model="product.description"
-          id="product-description"
-          required
-          rows="3"
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
-        ></textarea>
-      </div>
+      <InputComponent id="product-name" v-model="product.name" label="Nome" required type="text" />
+      <InputComponent
+        id="product-description"
+        v-model="product.description"
+        label="Descrição"
+        as="textarea"
+        required
+      />
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label for="product-price" class="block text-sm font-medium text-gray-700">Preço</label>
-          <input
-            v-model.number="product.price"
-            id="product-price"
-            type="number"
-            step="0.01"
-            required
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
-          />
-        </div>
-        <div>
-          <label for="product-expires" class="block text-sm font-medium text-gray-700"
-            >Data de Validade</label
-          >
-          <input
-            v-model="product.expires_at"
-            id="product-expires"
-            type="date"
-            required
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
-          />
-        </div>
-      </div>
-      <div>
-        <label for="product-category" class="block text-sm font-medium text-gray-700"
-          >Categoria</label
-        >
-        <input
-          v-model="product.category_name"
-          id="product-category"
-          type="text"
+        <InputComponent
+          id="product-price"
+          v-model.number="product.price"
+          label="Preço"
+          type="number"
+          step="0.01"
           required
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+        />
+        <InputComponent
+          id="product-expires"
+          v-model="product.expires_at"
+          label="Data de Validade"
+          type="date"
+          required
         />
       </div>
+      <InputComponent
+        id="product-category"
+        v-model="product.category_name"
+        label="Categoria"
+        type="text"
+        required
+      />
       <div>
         <label for="product-image" class="block text-sm font-medium text-gray-700"
           >Imagem do Produto</label
@@ -86,8 +59,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import type { ProductCreate } from '@/shared/models/product'
+import { ref, watch } from 'vue'
+import type { Product, ProductCreate } from '@/shared/models/product'
+import InputComponent from '@/shared/components/input/InputComponent.vue'
+
+const props = defineProps<{
+  productData?: Product | null
+}>()
 
 const product = ref<ProductCreate>({
   name: '',
@@ -97,6 +75,32 @@ const product = ref<ProductCreate>({
   category_name: '',
   image: '',
 })
+
+watch(
+  () => props.productData,
+  (newVal) => {
+    if (newVal) {
+      product.value = {
+        name: newVal.name,
+        description: newVal.description,
+        price: newVal.price,
+        expires_at: newVal.expires_at.split('T')[0],
+        category_name: newVal.category_name,
+        image: newVal.image,
+      }
+    } else {
+      product.value = {
+        name: '',
+        description: '',
+        price: 0,
+        expires_at: '',
+        category_name: '',
+        image: '',
+      }
+    }
+  },
+  { immediate: true },
+)
 
 const handleImageUpload = (event: Event) => {
   const target = event.target as HTMLInputElement
@@ -112,7 +116,5 @@ const handleImageUpload = (event: Event) => {
   }
 }
 
-defineExpose({
-  product,
-})
+defineExpose({ product })
 </script>
