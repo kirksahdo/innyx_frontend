@@ -28,3 +28,9 @@ export type ProductCreate = Omit<Product, 'id'>
 export interface CreateProductRequest {
   product: ProductCreate
 }
+
+export type ProductUpdate = Partial<ProductCreate>
+
+export interface UpdateProductRequest {
+  product: ProductUpdate
+}
