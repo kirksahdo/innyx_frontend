@@ -4,6 +4,8 @@ import {
   type GetAllProductsResponse,
   type GetAllProductsRequest,
   type CreateProductRequest,
+  type UpdateProductRequest,
+  type Product,
 } from '@/shared/models/product'
 
 export abstract class ProductsService {
@@ -19,17 +21,17 @@ export abstract class ProductsService {
     return response.data
   }
 
-  static async create(request: CreateProductRequest) {
-    const response = await api.post('/products', { ...request.product })
+  static async create({ product }: CreateProductRequest): Promise<Product> {
+    const response = await api.post<Product>('/products', product)
     return response.data
   }
 
-  static async getProfile(): Promise<User> {
-    const response = await api.get<User>('/auth/me')
+  static async update(id: string, { product }: UpdateProductRequest): Promise<Product> {
+    const response = await api.put<Product>(`/products/${id}`, product)
     return response.data
   }
 
-  static async logout(): Promise<void> {
-    await api.post('/auth/logout')
+  static async delete(id: string): Promise<void> {
+    await api.delete(`/products/${id}`)
   }
 }
