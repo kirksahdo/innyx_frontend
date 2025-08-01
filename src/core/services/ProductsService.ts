@@ -1,5 +1,4 @@
 import api from '../config/api'
-import type { User } from '@/shared/models/user'
 import {
   type GetAllProductsResponse,
   type GetAllProductsRequest,
