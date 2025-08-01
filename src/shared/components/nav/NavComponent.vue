@@ -3,8 +3,8 @@
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
       <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
         <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
-          >Innyx</span
-        >
+          >Innyx - {{ user?.name }}
+        </span>
       </a>
       <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
         <ButtonComponent class="gap-2" type="button" :onClick="handleSignout">
@@ -29,12 +29,9 @@
           <span class="max-sm:hidden">Deslogar</span>
         </ButtonComponent>
       </div>
-      <div
-        class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
-        id="navbar-sticky"
-      >
+      <div class="items-center justify-between w-full md:flex md:w-auto" id="navbar-sticky">
         <ul
-          class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0"
+          class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row"
         >
           <li>
             <a
@@ -57,7 +54,7 @@ import { useAuth } from '@/shared/composables/useAuth'
 import { useRouter } from 'vue-router'
 import { useToasts } from '@/shared/composables/useToasts'
 
-const { logout } = useAuth()
+const { logout, user } = useAuth()
 const { addToast } = useToasts()
 const router = useRouter()
 

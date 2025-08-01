@@ -2,15 +2,12 @@ import type { LoginRequest } from './../models/auth'
 import { AuthService } from '@/core/services/AuthService'
 import type { User } from '@/shared/models/user'
 import { computed, ref } from 'vue'
-import { useRouter } from 'vue-router'
 
 const user = ref<User | null>(null)
 const isAuthenticated = computed(() => !!user.value)
 const isAuthCheckAttemped = ref(false)
 
 export const useAuth = () => {
-  const router = useRouter()
-
   const checkAuthStatus = async () => {
     if (isAuthCheckAttemped.value) return
     isAuthCheckAttemped.value = true
@@ -29,12 +26,8 @@ export const useAuth = () => {
   }
 
   const logout = async () => {
-    try {
-      await AuthService.logout()
-    } finally {
-      user.value = null
-      await router.push({ name: 'login' })
-    }
+    await AuthService.logout()
+    user.value = null
   }
 
   return {

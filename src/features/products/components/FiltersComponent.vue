@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+  <div class="flex flex-col w-full md:flex-row justify-between items-center gap-4">
     <h1 class="text-2xl font-bold text-gray-800">Lista de Produtos</h1>
     <div class="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
       <input

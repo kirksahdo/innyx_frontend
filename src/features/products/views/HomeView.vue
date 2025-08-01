@@ -1,6 +1,6 @@
 <template>
   <ContainerComponent>
-    <div class="size-full flex flex-col p-5 gap-6 bg-gray-50 rounded-lg shadow-sm">
+    <div class="size-full flex flex-col p-5 gap-6 overflow-y-auto rounded-lg shadow-sm">
       <div class="flex justify-between items-start">
         <FiltersComponent
           v-model:description-filter="descriptionFilter"

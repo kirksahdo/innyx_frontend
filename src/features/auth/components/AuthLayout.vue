@@ -5,7 +5,7 @@ import innyxLogo from '@/assets/innyx_logo.png'
 <template>
   <div class="flex h-full w-full overflow-auto flex-col bg-primary-900 justify-center items-center">
     <div
-      class="flex flex-col items-center gap-6 w-[500px] px-20 py-5 rounded-2xl shadow-xl bg-background"
+      class="flex flex-col max-h-4/5 overflow-auto items-center gap-6 w-[500px] max-md:w-4/5 px-20 max-md:p-10 py-5 rounded-2xl shadow-xl bg-background"
     >
       <img class="mx-auto h-10 w-auto" :src="innyxLogo" alt="Your Company" />
       <h2 class="text-center text-2xl font-bold leading-9 tracking-tight text-text">

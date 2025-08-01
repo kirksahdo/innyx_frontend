@@ -4,7 +4,7 @@
     class="fixed inset-0 z-40 flex items-center justify-center bg-black/50"
     @click.self="close"
   >
-    <div class="bg-white rounded-lg shadow-xl w-full max-w-lg mx-4">
+    <div class="bg-white rounded-lg overflow-auto shadow-xl max-h-4/5 w-full max-w-lg mx-4">
       <div class="p-6 border-b">
         <h3 class="text-xl font-semibold text-gray-800">{{ title }}</h3>
       </div>

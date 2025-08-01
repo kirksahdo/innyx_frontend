@@ -1,6 +1,6 @@
 <template>
   <div class="overflow-x-auto shadow-md rounded-lg h-full">
-    <table class="min-w-full h-full divide-y divide-gray-200">
+    <table class="max-md:hidden min-w-full h-full divide-y divide-gray-200">
       <thead class="bg-primary-600">
         <tr>
           <th
@@ -89,6 +89,29 @@
         </tr>
       </tbody>
     </table>
+
+    <div class="block md:hidden">
+      <div
+        v-for="product in props.products"
+        :key="product.id"
+        class="bg-white shadow rounded-lg p-4 mb-4 cursor-pointer hover:bg-primary-50 transition-colors duration-200"
+        @click="handleRowClick(product)"
+      >
+        <div class="flex items-center gap-4">
+          <img
+            :src="product.image"
+            :alt="product.name"
+            class="w-16 h-16 rounded-full object-cover"
+          />
+          <div class="flex flex-col">
+            <h3 class="text-lg font-semibold text-gray-800">{{ product.name }}</h3>
+            <p class="text-sm text-gray-600">{{ product.description }}</p>
+            <p class="text-sm text-gray-800">{{ formatCurrency(product.price) }}</p>
+            <p class="text-xs text-gray-500">Validade: {{ formatDate(product.expires_at) }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
